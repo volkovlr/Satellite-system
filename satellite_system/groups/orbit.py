@@ -1,3 +1,7 @@
+import datetime
+from ..satellites.satellite import Satellite
+
+
 class Orbit:
     def __init__(
         self,
