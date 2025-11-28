@@ -10,10 +10,16 @@ from utils.singleton import singleton
 @singleton
 class Coordinator:
   def __init__(self):
-    self.groups = {}
-    self.orbits = {}
-    self.satellites = {}
+      self.groups: Dict[str, Group] = {}
+      self.orbits: Dict[str, Orbit] = {}
+      self.satellites: Dict[str, Satellite] = {}
 
   def add_group(self, group_config : Dict[str, float]):
-    group = GroupBuilder.build(group_config, self)
-    self.groups[group.id] = group
+      group = GroupBuilder(self).build(group_config)
+      self.groups[group.reg_number] = group
+
+  def add_orbit(self, orbit: Orbit):
+      self.orbits[orbit.reg_number] = orbit
+
+  def add_satellite(self, sat: Satellite):
+      self.satellites[sat.reg_number] = sat

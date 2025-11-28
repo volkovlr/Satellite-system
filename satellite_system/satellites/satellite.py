@@ -6,7 +6,7 @@ class Satellite:
         view_angle: float,
         phase: float,
         reg_number: int,
-        group_number: int
+        group_number: int,
         launch_date: datetime.datetime,
         state: str
     ):
