@@ -11,7 +11,8 @@ class Logger:
 
         message = f"[{time}] [{type}] {message}"
 
-        print(message)
+        if (type is not "INFO"):
+            print(message)
 
         with open(self.log_file, "a") as f:
             f.write(message + "\n")
@@ -21,3 +22,6 @@ class Logger:
 
     def error(self, message: str):
         self.write("ERROR", message)
+
+    def result(self, message: str):
+      self.write("RESULT", message)
