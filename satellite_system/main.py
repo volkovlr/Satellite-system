@@ -9,8 +9,7 @@ class Main:
     def handle_input(self, input_line: str):
         self.logger.info(f"USER INPUT: {input_line}")
         try:
-            result = self.processor.execute(input_line)
-            self.logger.result(f"RESULT: {result}")
+            self.processor.execute(input_line)
 
         except Exception as e:
             self.logger.error(f"ERROR: {e}")

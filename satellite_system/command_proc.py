@@ -1,10 +1,10 @@
 from utils.singleton import singleton
-from str_to_command import Translator
+from coordinator import Coordinator
 
 @singleton
 class CommandProcessor:
     def __init__(self):
-        self.commands = {"add group" : Translator.add_group()}
+        self.commands = {"add group" : Coordinator.add_group()}
 
     def execute(self, input_line: str) -> str:
         parts = input_line.split()
