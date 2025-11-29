@@ -7,7 +7,7 @@ class Main:
         self.processor = CommandProcessor()
 
     def run(self):
-        print("Enter the command\n")
+        print("Enter the command")
 
         while True:
             user_input = input()

@@ -18,6 +18,9 @@ class HexManager:
 
       return centers
 
+  def get_total_number(self, res : int) -> int:
+      return h3.get_num_cells(res)
+
   def get_centers(self, resolution: int) -> List[Tuple[float, float]]:
       if (resolution >= 7):
           raise ValueError("A resolution of no more than 6 is supporting")
