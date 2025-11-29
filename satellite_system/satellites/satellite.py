@@ -1,4 +1,6 @@
+from __future__ import annotations
 import datetime
+from typing import Dict, Any
 
 class Satellite:
     def __init__(
@@ -11,6 +13,17 @@ class Satellite:
         state: str
     ):
         self.view_angle = view_angle
+        self.phase = phase
         self.reg_number = reg_number
+        self.group_number = group_number
         self.launch_date = launch_date
         self.state = state
+
+    @classmethod
+    def from_gr_config(cls, group_config: Dict[str, Any], phase: float, number: int, group_number: int) -> Satellite:
+        return cls(group_config["view_angle"],
+                   phase,
+                   number,
+                   group_number,
+                   group_config["t0"],
+                   "at work")

@@ -15,6 +15,12 @@ class Coordinator:
       self.satellites: Dict[str, Satellite] = {}
 
   def add_group(self, group_config : Dict[str, float]):
+      """
+        Ключи в group_config:
+        height, orb_inclin, longitude_asc, count_orbits,
+        count_satellites, phase_shift, ph_first_sat,
+        t0, view_angle
+      """
       group = GroupBuilder(self).build(group_config)
       self.groups[group.reg_number] = group
 

@@ -20,7 +20,7 @@ class HexManager:
 
   def get_centers(self, resolution: int) -> List[Tuple[float, float]]:
       if (resolution >= 7):
-          raise ValueError("Поддерживается разрешение не более 6")
+          raise ValueError("A resolution of no more than 6 is supporting")
 
       if (resolution in self.cells):
           return self.cells[resolution]

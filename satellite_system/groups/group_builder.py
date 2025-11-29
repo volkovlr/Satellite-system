@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import Dict, Any
 from .group import Group
 from .orbit import Orbit
 from ..satellites.satellite import Satellite
@@ -12,13 +12,7 @@ class GroupBuilder:
         self.coordinator = coordinator
         self.random = RandomID()
 
-    def build(self, group_config: Dict[str, Any]) -> Group:  
-        """
-        Ключи в group_config:
-        height, orb_inclin, longitude_asc, count_orbits,
-        count_satellites, phase_shift, ph_first_sat,
-        t0, view_angle
-        """
+    def build(self, group_config: Dict[str, Any]) -> Group:
 
         group = Group(group_config["t0"], self.random.get("group"))
 
@@ -27,13 +21,8 @@ class GroupBuilder:
         for i in range(group_config["count_orbits"]):
             longitude = (group_config["longitude_asc"] + i * (360 / group_config["count_orbits"])) % 360
 
-            orbit = Orbit(
-                group_config["height"],
-                group_config["orb_inclin"],
-                longitude,
-                group_config["t0"],
-                self.random.get("orbit"),
-            )
+            orbit = Orbit.from_gr_config(group_config, longitude, self.random.get("orbit"))
+
             group.add_orbit(orbit)
             self.coordinator.add_orbit(orbit)
 
@@ -42,14 +31,11 @@ class GroupBuilder:
                          k * (360 / satel_per_orbit) +
                          group_config["phase_shift"] * i) % 360
 
-                satellite = Satellite(
-                    group_config["view_angle"],
-                    phase,
-                    self.random.get("satellite"),
-                    group.reg_number,
-                    group_config["t0"],
-                    "at work"
-                )
+                satellite = Satellite.from_gr_config(group_config,
+                                                     phase,
+                                                     self.random.get("satellite"),
+                                                     group.reg_number)
+
                 orbit.add_satellite(satellite)
                 self.coordinator.add_satellite(satellite)
 

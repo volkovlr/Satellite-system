@@ -1,6 +1,6 @@
 import datetime
 from ..satellites.satellite import Satellite
-from typing import List, Optional
+from typing import List, Dict, Optional, Any
 
 class Orbit:
     def __init__(
@@ -24,3 +24,11 @@ class Orbit:
 
     def add_satellite(self, sat: Satellite):
         self.satellites.append(sat)
+
+    @classmethod
+    def from_gr_config(cls, group_config: Dict[str, Any], longitude: float, number: int):
+        return cls(group_config["height"],
+                   group_config["orb_inclin"],
+                   longitude,
+                   group_config["t0"],
+                   number)

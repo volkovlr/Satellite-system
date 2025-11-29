@@ -9,7 +9,7 @@ class Pool:
 
     def get(self) -> int:
         if self.index >= len(self.pool):
-            raise RuntimeError("Числа в диапазоне закончились")
+            raise RuntimeError("The numbers in the range are over")
 
         ind = self.pool[self.index]
         self.index += 1
