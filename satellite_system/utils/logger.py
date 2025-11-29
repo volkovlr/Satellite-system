@@ -1,5 +1,5 @@
 from datetime import datetime
-from singleton import singleton
+from .singleton import singleton
 
 @singleton
 class Logger:

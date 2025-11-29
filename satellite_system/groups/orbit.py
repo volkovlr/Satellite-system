@@ -1,5 +1,5 @@
 import datetime
-from ..satellites.satellite import Satellite
+from satellite_system.satellites.satellite import Satellite
 from typing import List, Dict, Optional, Any
 
 class Orbit:

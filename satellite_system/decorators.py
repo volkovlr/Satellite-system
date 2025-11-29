@@ -1,5 +1,30 @@
+from __future__ import annotations
 from typing import List
+from satellite_system.config.constants import GROUP_PARAM_KEYS
+import datetime
 
 def add_group_str(func):
-    def wrapper(line: str):
-        
+    def wrapper(self, line: List):
+        if len(line) != len(GROUP_PARAM_KEYS) + 1:
+            raise ValueError("Uncorrect parameters")
+
+        converted = []
+
+        for i in range(len(line)):
+            try:
+                if i in [0, 1, 2, 5, 6, 9]:
+                    converted.append(float(line[i]))
+
+                elif i in [3, 4]:
+                    converted.append(int(line[i]))
+
+                elif i == 7:
+                    date_str = line[i] + " " + line[i + 1]
+                    dt = datetime.datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S.%f")
+                    converted.append(dt)
+
+            except ValueError:
+                raise ValueError("Uncorrect parameters")
+
+        return func(self, dict(zip(GROUP_PARAM_KEYS, converted)))
+    return wrapper

@@ -1,13 +1,13 @@
-from satellites.satellite import Satellite
-from groups.group import Group
-from groups.orbit import Orbit
-from groups.group_builder import GroupBuilder
-from str_to_command import add_group_str
-from utils.logger import Logger
+from satellite_system.satellites.satellite import Satellite
+from satellite_system.groups.group import Group
+from satellite_system.groups.orbit import Orbit
+from satellite_system.groups.group_builder import GroupBuilder
+from .decorators import add_group_str
+from satellite_system.utils.logger import Logger
 
 from typing import Dict
 
-from utils.singleton import singleton
+from satellite_system.utils.singleton import singleton
 
 @singleton
 class Coordinator:

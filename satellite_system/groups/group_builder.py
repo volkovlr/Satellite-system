@@ -1,10 +1,11 @@
+from __future__ import annotations
 from typing import Dict, Any
 from .group import Group
 from .orbit import Orbit
-from ..satellites.satellite import Satellite
-from utils.random import RandomID
-from ..coordinator import Coordinator
-from utils.singleton import singleton
+from satellite_system.satellites.satellite import Satellite
+from satellite_system.utils.random import RandomID
+#from satellite_system.coordinator import Coordinator
+from satellite_system.utils.singleton import singleton
 
 @singleton
 class GroupBuilder:
@@ -26,7 +27,7 @@ class GroupBuilder:
             group.add_orbit(orbit)
             self.coordinator.add_orbit(orbit)
 
-            for k in range(satel_per_orbit):
+            for k in range(int(satel_per_orbit)):
                 phase = (group_config["ph_first_sat"] +
                          k * (360 / satel_per_orbit) +
                          group_config["phase_shift"] * i) % 360

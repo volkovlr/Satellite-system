@@ -1,5 +1,5 @@
 import random
-from singleton import singleton
+from .singleton import singleton
 
 class Pool:
     def __init__(self, a: int, b: int):
