@@ -9,10 +9,23 @@ from satellite_system.utils.singleton import singleton
 @singleton
 class GroupBuilder:
     def __init__(self, coordinator: Coordinator):
+        """This is a factory class for creating groupings, satellites, and orbits.
+
+        Args:
+            coordinator (Coordinator)
+        """
         self.coordinator = coordinator
         self.random = RandomID()
 
     def build(self, group_config: Dict[str, Any]) -> Group:
+        """This function creates a grouping with orbits and satellites
+
+        Args:
+            group_config (Dict[str, Any]): Parameters of the group being created (see config/constants)
+
+        Returns:
+            Group: the created group
+        """
 
         group = Group(group_config["t0"], self.random.get("group"))
 
