@@ -20,7 +20,7 @@ class GroupBuilder:
         satel_per_orbit = group_config["count_satellites"] / group_config["count_orbits"]
 
         for i in range(group_config["count_orbits"]):
-            longitude = (group_config["longitude_asc"] + i * (360 / group_config["count_orbits"])) % 360
+            longitude = (group_config["longitude_asc"] + i * (360 / group_config["count_orbits"]))
 
             orbit = Orbit.from_gr_config(group_config, longitude, self.random.get("orbit"))
 
