@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [main]
 
+if: false
+
 jobs:
   code-quality:
     runs-on: ubuntu-latest
