@@ -1,0 +1,38 @@
+name: Satellite System CI
+
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Get the code from the repository
+      uses: actions/checkout@v4
+
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install mypy pytest flake8
+
+    - name: Check codestile
+      run: |
+        flake8 .
+
+    - name: Check types
+      run: |
+        mypy satellite_system/ --ignore-missing-imports
+
+    - name: Run tests
+      run: |
+        pytest tests/ -v

@@ -4,7 +4,6 @@ from .group import Group
 from .orbit import Orbit
 from satellite_system.satellites.satellite import Satellite
 from satellite_system.utils.random import RandomID
-#from satellite_system.coordinator import Coordinator
 from satellite_system.utils.singleton import singleton
 
 @singleton
