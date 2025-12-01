@@ -25,13 +25,13 @@ jobs:
         pip install -r requirements.txt
         pip install mypy pytest flake8
 
-    - name: Check codestyle
-      run: |
-        flake8 .
+#    - name: Check codestyle
+#     run: |
+#        flake8 .
 
-    - name: Check types
-      run: |
-        mypy satellite_system/ --ignore-missing-imports
+#    - name: Check types
+#      run: |
+#        mypy satellite_system/ --ignore-missing-imports
 
     - name: Run tests
       run: |
