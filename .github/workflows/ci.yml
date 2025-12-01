@@ -29,9 +29,9 @@ jobs:
 #     run: |
 #        flake8 .
 
-#    - name: Check types
-#      run: |
-#        mypy satellite_system/ --ignore-missing-imports
+    - name: Check types
+      run: |
+        mypy satellite_system/ --ignore-missing-imports
 
     - name: Run tests
       run: |
