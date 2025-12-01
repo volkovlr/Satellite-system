@@ -1,6 +1,0 @@
-satellite\_system.coordinator
-=============================
-
-.. automodule:: satellite_system.coordinator
-
-   

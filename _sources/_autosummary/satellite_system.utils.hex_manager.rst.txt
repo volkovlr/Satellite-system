@@ -1,6 +1,0 @@
-satellite\_system.utils.hex\_manager
-====================================
-
-.. automodule:: satellite_system.utils.hex_manager
-
-   
