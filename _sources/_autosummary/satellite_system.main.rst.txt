@@ -1,0 +1,12 @@
+satellite\_system.main
+======================
+
+.. automodule:: satellite_system.main
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Main
+   

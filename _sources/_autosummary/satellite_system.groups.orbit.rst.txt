@@ -1,0 +1,12 @@
+satellite\_system.groups.orbit
+==============================
+
+.. automodule:: satellite_system.groups.orbit
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Orbit
+   

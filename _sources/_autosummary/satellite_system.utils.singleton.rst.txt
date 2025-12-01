@@ -1,0 +1,12 @@
+satellite\_system.utils.singleton
+=================================
+
+.. automodule:: satellite_system.utils.singleton
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      singleton
+   

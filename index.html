@@ -18,7 +18,8 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="satellite_system" href="_autosummary/satellite_system.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,30 +41,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Satellite System</a><ul>
-<li><a class="reference internal" href="#module-satellite_system">Modules</a><ul>
-<li><a class="reference internal" href="#satellite_system.satellites.satellite.Satellite"><code class="docutils literal notranslate"><span class="pre">Satellite</span></code></a><ul>
-<li><a class="reference internal" href="#satellite_system.satellites.satellite.Satellite.from_gr_config"><code class="docutils literal notranslate"><span class="pre">Satellite.from_gr_config()</span></code></a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/satellite_system.html">satellite_system</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#satellite_system.groups.group.Group"><code class="docutils literal notranslate"><span class="pre">Group</span></code></a><ul>
-<li><a class="reference internal" href="#satellite_system.groups.group.Group.add_orbit"><code class="docutils literal notranslate"><span class="pre">Group.add_orbit()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#satellite_system.groups.orbit.Orbit"><code class="docutils literal notranslate"><span class="pre">Orbit</span></code></a><ul>
-<li><a class="reference internal" href="#satellite_system.groups.orbit.Orbit.add_satellite"><code class="docutils literal notranslate"><span class="pre">Orbit.add_satellite()</span></code></a></li>
-<li><a class="reference internal" href="#satellite_system.groups.orbit.Orbit.from_gr_config"><code class="docutils literal notranslate"><span class="pre">Orbit.from_gr_config()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#satellite_system.utils.singleton.singleton"><code class="docutils literal notranslate"><span class="pre">singleton()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -90,106 +71,24 @@
              
   <section id="satellite-system">
 <h1>Satellite System<a class="headerlink" href="#satellite-system" title="Link to this heading"></a></h1>
-<p>Welcome to the Satellite System documentation!</p>
-<div class="toctree-wrapper compound">
-</div>
-<section id="module-satellite_system">
-<span id="modules"></span><h2>Modules<a class="headerlink" href="#module-satellite_system" title="Link to this heading"></a></h2>
-<dl class="py class" id="module-satellite_system.satellites.satellite">
-<span id="module-satellite_system.coordinator"></span><span id="module-satellite_system.command_proc"></span><dt class="sig sig-object py" id="satellite_system.satellites.satellite.Satellite">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satellite_system.satellites.satellite.</span></span><span class="sig-name descname"><span class="pre">Satellite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view_angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">launch_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.satellites.satellite.Satellite" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="satellite_system.satellites.satellite.Satellite.from_gr_config">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_gr_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.satellites.satellite.Satellite.from_gr_config" title="Link to this definition"></a></dt>
-<dd><p>A function for creating a Satellite from the configuration of the entire grouping</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>group_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p></li>
-<li><p><strong>phase</strong> (<em>float</em>)</p></li>
-<li><p><strong>number</strong> (<em>int</em>)</p></li>
-<li><p><strong>group_number</strong> (<em>int</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#satellite_system.satellites.satellite.Satellite" title="satellite_system.satellites.satellite.Satellite"><code class="xref py py-class docutils literal notranslate"><span class="pre">Satellite</span></code></a></span></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Satellite</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class" id="module-satellite_system.groups.group">
-<dt class="sig sig-object py" id="satellite_system.groups.group.Group">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satellite_system.groups.group.</span></span><span class="sig-name descname"><span class="pre">Group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creat_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.groups.group.Group" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="satellite_system.groups.group.Group.add_orbit">
-<span class="sig-name descname"><span class="pre">add_orbit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orbit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.groups.group.Group.add_orbit" title="Link to this definition"></a></dt>
-<dd><p>A function for adding an orbit</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>orbit</strong> (<a class="reference internal" href="#satellite_system.groups.orbit.Orbit" title="satellite_system.groups.orbit.Orbit"><em>Orbit</em></a>)</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class" id="module-satellite_system.groups.orbit">
-<dt class="sig sig-object py" id="satellite_system.groups.orbit.Orbit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satellite_system.groups.orbit.</span></span><span class="sig-name descname"><span class="pre">Orbit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">creat_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.groups.orbit.Orbit" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="satellite_system.groups.orbit.Orbit.add_satellite">
-<span class="sig-name descname"><span class="pre">add_satellite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sat</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.groups.orbit.Orbit.add_satellite" title="Link to this definition"></a></dt>
-<dd><p>A function for adding a satellite</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sat</strong> (<a class="reference internal" href="#satellite_system.satellites.satellite.Satellite" title="satellite_system.satellites.satellite.Satellite"><em>Satellite</em></a>)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="satellite_system.groups.orbit.Orbit.from_gr_config">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_gr_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.groups.orbit.Orbit.from_gr_config" title="Link to this definition"></a></dt>
-<dd><p>A function for creating an orbit from the configuration of the entire grouping</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>group_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p></li>
-<li><p><strong>longitude</strong> (<em>float</em>)</p></li>
-<li><p><strong>number</strong> (<em>int</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#satellite_system.groups.orbit.Orbit" title="satellite_system.groups.orbit.Orbit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Orbit</span></code></a></span></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Orbit</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function" id="module-satellite_system.utils.singleton">
-<span id="module-satellite_system.groups.group_builder"></span><dt class="sig sig-object py" id="satellite_system.utils.singleton.singleton">
-<span class="sig-prename descclassname"><span class="pre">satellite_system.utils.singleton.</span></span><span class="sig-name descname"><span class="pre">singleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.utils.singleton.singleton" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/satellite_system.html#module-satellite_system" title="satellite_system"><code class="xref py py-obj docutils literal notranslate"><span class="pre">satellite_system</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="_autosummary/satellite_system.html" class="btn btn-neutral float-right" title="satellite_system" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

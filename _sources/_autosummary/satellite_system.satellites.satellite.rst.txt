@@ -1,0 +1,12 @@
+satellite\_system.satellites.satellite
+======================================
+
+.. automodule:: satellite_system.satellites.satellite
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Satellite
+   

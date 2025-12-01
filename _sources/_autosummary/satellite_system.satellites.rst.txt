@@ -1,0 +1,13 @@
+satellite\_system.satellites
+============================
+
+.. automodule:: satellite_system.satellites
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   satellite

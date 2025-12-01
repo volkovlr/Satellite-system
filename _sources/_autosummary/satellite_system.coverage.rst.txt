@@ -1,0 +1,13 @@
+satellite\_system.coverage
+==========================
+
+.. automodule:: satellite_system.coverage
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   static

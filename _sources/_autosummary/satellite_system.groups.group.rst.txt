@@ -1,0 +1,12 @@
+satellite\_system.groups.group
+==============================
+
+.. automodule:: satellite_system.groups.group
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Group
+   

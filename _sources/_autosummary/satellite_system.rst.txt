@@ -1,0 +1,21 @@
+﻿satellite\_system
+=================
+
+.. automodule:: satellite_system
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   command_proc
+   coordinator
+   coverage
+   decorators
+   groups
+   main
+   pos_prediction
+   satellites
+   utils

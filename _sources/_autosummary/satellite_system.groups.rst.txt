@@ -1,0 +1,15 @@
+satellite\_system.groups
+========================
+
+.. automodule:: satellite_system.groups
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   group
+   group_builder
+   orbit
