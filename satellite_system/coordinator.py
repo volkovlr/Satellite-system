@@ -12,6 +12,8 @@ from satellite_system.utils.singleton import singleton
 @singleton
 class Coordinator:
   def __init__(self):
+      """Launch certain function (create group or calculating coverage) depending on user's input
+      """
       self.groups: Dict[str, Group] = {}
       self.orbits: Dict[str, Orbit] = {}
       self.satellites: Dict[str, Satellite] = {}
@@ -20,13 +22,28 @@ class Coordinator:
 
   @add_group_str
   def add_group(self, group_config : Dict[str, float]):
+      """Add a group to the model (using group builder)
+
+      Args:
+          group_config (Dict[str, float]): group configuration
+      """
       group = GroupBuilder(self).build(group_config)
       self.groups[group.reg_number] = group
 
       self.logger.result(f"Аdded a group with a number: {group.reg_number}")
 
   def add_orbit(self, orbit: Orbit):
+      """Add an orbit to the model
+
+      Args:
+          orbit (Orbit)
+      """
       self.orbits[orbit.reg_number] = orbit
 
   def add_satellite(self, sat: Satellite):
+      """Add a satellite to the model
+
+      Args:
+          sat (Satellite)
+      """
       self.satellites[sat.reg_number] = sat

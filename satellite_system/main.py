@@ -3,10 +3,14 @@ from satellite_system.utils.logger import Logger
 
 class Main:
     def __init__(self):
+        """A facade for user interaction
+        """
         self.logger = Logger()
         self.processor = CommandProcessor()
 
     def run(self):
+        """Processing of primary input data
+        """
         print("Enter the command")
 
         while True:

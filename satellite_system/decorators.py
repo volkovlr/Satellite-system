@@ -4,7 +4,20 @@ from satellite_system.config.constants import GROUP_PARAM_KEYS
 import datetime
 
 def add_group_str(func):
+    """A decorator for possibility to accept a list of group configuration instead of dict
+
+    Args:
+        func (List)
+    """
     def wrapper(self, line: List):
+        """A function for convert list of group configuration to dict
+
+        Args:
+            line (List)
+
+        Raises:
+            ValueError
+        """
         if len(line) != len(GROUP_PARAM_KEYS) + 1:
             raise ValueError("Uncorrect parameters")
 
