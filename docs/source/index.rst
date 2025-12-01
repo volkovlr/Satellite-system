@@ -1,11 +1,12 @@
 Satellite System
 ================
 
-Modules
+Contents
 --------
 
-.. autosummary::
-   :recursive:
-   :toctree: _autosummary
+.. toctree::
+   :maxdepth: 2
+   :caption: Modules
+   :glob:
 
-   satellite_system
+   _autosummary/*
