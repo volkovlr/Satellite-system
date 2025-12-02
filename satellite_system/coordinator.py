@@ -49,13 +49,14 @@ class Coordinator:
       """
       self.satellites[sat.reg_number] = sat
 
-  def calculate_coverage(self, group: Group, resolution: int, target_time: datetime):
+  def calculate_coverage(self, group_number: int, resolution: int, target_time: datetime):
       """Calculates coverage by group
 
       Args:
           group (Group)
           resolution (int)
       """
+      group = self.groups[group_number]
       if (group.reg_number, resolution) in self.cache:
           calculator = self.cache[(group.reg_number, resolution)]
       else:
