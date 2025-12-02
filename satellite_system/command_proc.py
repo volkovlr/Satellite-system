@@ -7,7 +7,7 @@ class CommandProcessor:
         """A class for launching a specific function depending on the type of request
         """
         self.coordinator = Coordinator()
-        self.commands = {"add_group" : self.coordinator.add_group}
+        self.commands = {"add_group" : self.coordinator.add_group, "calculate_coverage" : self.coordinator.calculate_coverage}
 
     def execute(self, input_line: str) -> str:
         """Processing of user's input
