@@ -1,65 +1,89 @@
 from typing import List, Set, Tuple
+import numpy as np
+import numpy.typing as npt
+import datetime
 from ..pos_prediction.pos_prediction import PosPrediction
 from ..groups.group import Group
-from dataclasses import dataclass
 from ..utils.hex_manager import HexManager
-import numpy as np
-import math
-import ..coord_converter
+import ..utils.coord_converter
 import ..utils.constants
-
-@dataclass
-class Aperture:
-    center: GeoCoord
-    aperture_angle: float
+from ..coord_converter.coord_converter import CoordConverter
 
 
-    def contains(self, point: GeoCoord) -> bool:
-        x_point, y_point, z_point = CoordConverter().geo_to_decart(point)
-        x_center, y_center, z_center = CoordConverter().geo_to_decart(center)
-        point_vec = np.array([x_point, y_point, z_point])
-        center_vec = np.array([x_center, y_center, z_center])
-        return math.acos(np.dot(point_vec, center_vec) / (np.linalg.norm(center_vec) * np.linalg.norm(point_vec))) <= self.aperture_angle
+CenterCoord_dtype = np.dtype([
+    ("lat", float),
+    ("lon", float),
+])
 
-    @staticmethod
-    def calculate_aperture_angles_bulk(heights, view_angles):
-        view_angles_rad = np.radians(view_angles)
-        return 180 - view_angles_rad - np.degrees(
-            np.arcsin((1 + heights / Constants.EARTH_RADIUS) * np.sin(view_angles_rad))
-        )
 
 class StaticCoverage:
-    def init(
-        self,
-        group: Group,
-        target_time: datetime
-        covered_centers: Set[Tuple[float, float]]
-    ):
+    def __init__(self, group: Group, resolution: int):
         self.group = group
-        self.target_time = target_time
-        self.covered_centers = None
+        self.resolution = resolution
+        self.cache: dict[datetime, float] = {}
+        self.aperture_angles: npt.NDArray[float] = None
+        self.centers: npt.NDArray[CenterCoord_dtype] = None
 
+    def preprocess(self):
+        centers_list = HexManager().get_centers(self.resolution)
+        self.centers = np.array(centers_list, dtype=CenterCoord_dtype)
 
+        heights = np.array([orbit.height for orbit in self.group.orbits for _ in orbit.satellites])
+        view_angles = np.array([satellite.view_angle for orbit in self.group.orbits for satellite in orbit.satellites])
+        view_angles_rad = np.radians(view_angles)
 
-def get_covered_centers(self, coord: GeoCoord, view_angle: float]) -> set(Tuple[float, float]):
-    if (self.covered_centers != None):
-        return self.covered_centers
-
-    view_angles = np.array([])
-    for orbit in self.group.orbits:
-        cur_view_angles = np.array([sat.view_angle for sat in orbit])
-        view_angles.concatenate(view_angles, cur_view_angles)
-    view_angles_rad = np.radians(view_angles)
-
-
-    apreture_angles = 180 - view_angles_rad - np.degrees(
-            np.arcsin((1 + heights / Constants.EARTH_RADIUS) * np.sin(view_angles_rad))
+        self.aperture_angles = 180 - view_angles - np.degrees(
+            np.arcsin((1 + heights / constants.EARTH_RADIUS) * np.sin(
+                view_angles_rad))
         )
-def get_covered_centers_union(self):-> set(Tuple[float, float])
 
-    for sat_reg_number, position in positions:
-        covered_centers = get_covered_centers(position)
-        covered_centers_union.update(covered_centers)
+    def get_covered_centers_union(self, target_time: datetime) -> npt.NDArray[CenterCoord_dtype]:
+        if self.centers is None:
+            self.preprocess()
 
-def calculate_coverage(self, target_time: datetime) -> float:
-    return len(get_covered_centers_union(self, target_time)) / HexManager().get_total_number()
+        result = np.empty(0, dtype=CenterCoord_dtype)
+
+        predictor = PosPrediction(self.group)
+        positions = predictor.predict_positions(target_time)
+
+        min_lats = np.clip(positions["lat"] - self.aperture_angles, -90, 90)
+        max_lats = np.clip(positions["lat"] + self.aperture_angles, -90, 90)
+        min_lons = (positions["lon"] - self.aperture_angles) % 360
+        max_lons = (positions["lon"] + self.aperture_angles) % 360
+
+        center_lats = self.centers["lat"]
+
+        for i in range(len(positions)):
+            lat_min = min_lats[i]
+            lat_max = max_lats[i]
+            lon_min = min_lons[i]
+            lon_max = max_lons[i]
+
+            lower_bound = np.searchsorted(center_lats, lat_min, side="left")
+            upper_bound = np.searchsorted(center_lats, lat_max, side="right")
+            candidate_points = self.centers[lower_bound:upper_bound]
+
+            center_lons = candidate_points["lon"]
+            if lon_min <= lon_max:
+                lon_mask = (center_lons >= lon_min) & (center_lons <= lon_max)
+            else:
+                lon_mask = (center_lons >= lon_min) | (center_lons <= lon_max)
+            candidate_points = candidate_points[lon_mask]
+
+            sat_struct_dec = CoordConverter().geo_to_dec_single(positions["lat"][i], positions["lon"][i], positions["height"][i])
+            sat_vec = np.array([sat_struct_dec["x"], sat_struct_dec["y"], sat_struct_dec["z"]])
+
+            candidate_structs_dec = geo_to_dec_surface_np(candidate_points)
+            candidate_vecs = np.vstack([candidate_structs_dec["x"], candidate_structs_dec["y"], candidate_structs_dec["z"]]).T
+
+            cos_center = (candidate_vecs @ sat_vec) / np.linalg.norm(candidate_vecs, axis=1, keepdims=True) / np.linalg.norm(sat_vec)
+            cos_aperture_angle = np.cos(np.radians(self.aperture_angles[i]))
+            final_mask = (cos_aperture_angle >= cos_center)
+            result = np.concatenate((result, candidate_points[final_mask]))
+
+        return result
+
+    def calculate_coverage(self, target_time: datetime) -> float:
+        if target_time in self.cache:
+            return self.cache[target_time]
+        return len(self.get_covered_centers_union(target_time)) / HexManager().get_total_number(self.resolution)
