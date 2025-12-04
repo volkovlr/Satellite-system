@@ -9,3 +9,9 @@ GROUP_PARAM_KEYS = [
     "t0",  # Time when the grouping was created
     "view_angle"  # Viewing angle of all satellites of the grouping when creating
 ]
+
+CALCULATOR_PARAM_KEYS = [
+    "group_number",  # The number of counting group
+    "resolution",  # Hexes/area
+    "target_time"  # Coverage is calculated for this time
+]
