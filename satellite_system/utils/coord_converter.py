@@ -1,20 +1,25 @@
 from .singleton import singleton
 import numpy as np
 import numpy.typing as npt
-import .constants
+from satellite_system.utils.constants import EARTH_RADIUS
 
 
 GeoCoord_dtype = np.dtype([
     ("lat", float),
     ("lon", float),
-    ("height", float),
+    ("height", float)
+])
+
+Geo2DCoord_dtype = np.dtype([
+    ("lat", float),
+    ("lon", float)
 ])
 
 PhaseCoord_dtype = np.dtype([
     ("longitude_asceding_node", float),
     ("inclin", float),
     ("phase_on_orbit", float),
-    ("height", float),
+    ("height", float)
 ])
 
 DecartCoord_dtype = np.dtype([
@@ -72,9 +77,9 @@ class CoordConverter:
         lats_rad = np.radians(lats)
         lons_rad = np.radians(lons)
 
-        xs = (сonstants.EARTH_RADIUS + heights) * np.cos(lats_rad) * np.cos(lons_rad)
-        ys = (сonstants.EARTH_RADIUS + heights) * np.cos(lats_rad) * np.sin(lons_rad)
-        zs = (сonstants.EARTH_RADIUS + heights) * np.sin(lats_rad)
+        xs = (EARTH_RADIUS + heights) * np.cos(lats_rad) * np.cos(lons_rad)
+        ys = (EARTH_RADIUS + heights) * np.cos(lats_rad) * np.sin(lons_rad)
+        zs = (EARTH_RADIUS + heights) * np.sin(lats_rad)
 
         result = np.empty(len(lats), dtype=DecartCoord_dtype)
         result["x"] = xs
@@ -82,3 +87,12 @@ class CoordConverter:
         result["z"] = zs
 
         return result
+
+
+    @staticmethod
+    def geo_2d_to_dec_np(geo_2d_coord_np: npt.NDArray[Geo2DCoord_dtype]) -> npt.NDArray[DecartCoord_dtype]:
+        geo_coord_np = np.empty(len(geo_2d_coord_np), dtype=DecartCoord_dtype)
+        geo_coord_np["lat"] = geo_2d_coord_np["lat"]
+        geo_coord_np["lon"] = geo_2d_coord_np["lon"]
+        geo_coord_np["height"] = EARTH_RADIUS
+        return CoordConverter.geo_to_dec_np(geo_coord_np)

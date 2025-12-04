@@ -1,10 +1,9 @@
 import datetime
 import numpy as np
 import numpy.typing as npt
-import ..utils.coord_converter
 from ..groups.group import Group
-import ..utils.constants
-from ..coord_converter.coord_converter import CoordConverter
+import satellite_system.utils.constants
+import satellite_system.utils.coord_converter
 
 
 SatGeomData_dtype = np.dtype([
@@ -60,3 +59,5 @@ class PosPrediction:
 
         self.cache[target_time] = result
         return result
+        """_summary_
+        """

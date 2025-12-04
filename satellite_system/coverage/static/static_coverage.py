@@ -2,12 +2,11 @@ from typing import List, Set, Tuple
 import numpy as np
 import numpy.typing as npt
 import datetime
-from ..pos_prediction.pos_prediction import PosPrediction
-from ..groups.group import Group
-from ..utils.hex_manager import HexManager
-import ..utils.coord_converter
-import ..utils.constants
-from ..coord_converter.coord_converter import CoordConverter
+from satellite_system.pos_prediction.pos_prediction import PosPrediction
+from satellite_system.groups.group import Group
+from satellite_system.utils.constants import EARTH_RADIUS
+from satellite_system.utils.hex_manager import HexManager
+from satellite_system.utils.coord_converter import  CoordConverter
 
 
 CenterCoord_dtype = np.dtype([
@@ -33,7 +32,7 @@ class StaticCoverage:
         view_angles_rad = np.radians(view_angles)
 
         self.aperture_angles = 180 - view_angles - np.degrees(
-            np.arcsin((1 + heights / constants.EARTH_RADIUS) * np.sin(
+            np.arcsin((1 + heights / EARTH_RADIUS) * np.sin(
                 view_angles_rad))
         )
 
@@ -73,7 +72,7 @@ class StaticCoverage:
             sat_struct_dec = CoordConverter().geo_to_dec_single(positions["lat"][i], positions["lon"][i], positions["height"][i])
             sat_vec = np.array([sat_struct_dec["x"], sat_struct_dec["y"], sat_struct_dec["z"]])
 
-            candidate_structs_dec = geo_to_dec_surface_np(candidate_points)
+            candidate_structs_dec = geo_2d_to_dec_np(candidate_points)
             candidate_vecs = np.vstack([candidate_structs_dec["x"], candidate_structs_dec["y"], candidate_structs_dec["z"]]).T
 
             cos_center = (candidate_vecs @ sat_vec) / np.linalg.norm(candidate_vecs, axis=1, keepdims=True) / np.linalg.norm(sat_vec)
