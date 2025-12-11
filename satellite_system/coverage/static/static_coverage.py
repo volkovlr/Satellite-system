@@ -25,16 +25,16 @@ class StaticCoverage:
 
     def preprocess(self):
         centers_list = HexManager().get_centers(self.resolution)
+        centers_list.sort(key = lambda x: x[0])
         self.centers = np.array(centers_list, dtype=CenterCoord_dtype)
 
         heights = np.array([orbit.height for orbit in self.group.orbits for _ in orbit.satellites])
         view_angles = np.array([satellite.view_angle for orbit in self.group.orbits for satellite in orbit.satellites])
         view_angles_rad = np.radians(view_angles)
 
-        self.aperture_angles = 180 - view_angles - np.degrees(
+        self.aperture_angles = np.degrees(
             np.arcsin((1 + heights / EARTH_RADIUS) * np.sin(
-                view_angles_rad))
-        )
+                view_angles_rad))) - view_angles
 
     def get_covered_centers_union(self, target_time: datetime) -> npt.NDArray[CenterCoord_dtype]:
         if self.centers is None:
@@ -57,9 +57,9 @@ class StaticCoverage:
             lat_max = max_lats[i]
             lon_min = min_lons[i]
             lon_max = max_lons[i]
-
             lower_bound = np.searchsorted(center_lats, lat_min, side="left")
             upper_bound = np.searchsorted(center_lats, lat_max, side="right")
+            print(lower_bound, upper_bound)
             candidate_points = self.centers[lower_bound:upper_bound]
 
             center_lons = candidate_points["lon"]
@@ -69,18 +69,17 @@ class StaticCoverage:
                 lon_mask = (center_lons >= lon_min) | (center_lons <= lon_max)
             candidate_points = candidate_points[lon_mask]
 
-            sat_struct_dec = CoordConverter().geo_to_dec_single(positions["lat"][i], positions["lon"][i], positions["height"][i])
-            sat_vec = np.array([sat_struct_dec["x"], sat_struct_dec["y"], sat_struct_dec["z"]])
+            sat_structured_np = CoordConverter().geo_to_dec_single(positions["lat"][i], positions["lon"][i], positions["height"][i])
+            sat_np = sat_structured_np.view((float, 3)).T
 
-            candidate_structs_dec = CoordConverter().geo_2d_to_dec_np(candidate_points)
-            candidate_vecs = np.vstack([candidate_structs_dec["x"], candidate_structs_dec["y"], candidate_structs_dec["z"]]).T
-
-            cos_center = (candidate_vecs @ sat_vec) / np.linalg.norm(candidate_vecs, axis=1) / np.linalg.norm(sat_vec)
+            candidates_structured_np = CoordConverter().geo_2d_to_dec_np(candidate_points)
+            candidates_np = candidates_structured_np.view((float, 3))
+            cos_center = (candidates_np @ sat_np) / np.linalg.norm(candidates_np, axis=1, keepdims=True) / np.linalg.norm(sat_np)
             cos_aperture_angle = np.cos(np.radians(self.aperture_angles[i]))
-            final_mask = (cos_aperture_angle <= cos_center)
+            final_mask = (cos_aperture_angle <= cos_center).ravel()
             result = np.concatenate((result, candidate_points[final_mask]))
 
-        return result
+        return np.unique(result)
 
     def calculate_coverage(self, target_time: datetime) -> float:
         if target_time in self.cache:
