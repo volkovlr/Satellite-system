@@ -1,19 +1,9 @@
 from datetime import datetime
-import numpy as np
-import numpy.typing as npt
 from ..groups.group import Group
-from satellite_system.utils.constants import EARTH_ANGULAR_VELOCITY_RAD
+from ..utils.constants import *
 from satellite_system.utils.coord_converter import *
-
-
-SatGeomData_dtype = np.dtype([
-    ("lat", float),
-    ("lon", float),
-    ("height", float),
-    ("view_angle", float),
-    ("reg_number", int),
-])
-
+from ..groups.orbit import Orbit
+from ..utils.numpy_views.group_numpy_view import GroupNumpyView
 
 class PosPrediction:
     def __init__(self, group: Group):
@@ -21,44 +11,31 @@ class PosPrediction:
         self.cache = {}
 
     def predict_positions(self, target_time: datetime
-                          ) -> npt.NDArray[SatGeomData_dtype]:
+                          ) -> dict[int, tuple[float, float, float]]:
         if target_time in self.cache:
             return self.cache[target_time]
 
-        results = []
-        for orbit in self.group.orbits:
-            phase_coords = np.empty(len(orbit.satellites),
-                                    dtype=PhaseCoord_dtype)
+        np_view = GroupNumpyView(self.group)
+        time_delta = (target_time - np_view.orbit_view.creat_date).total_seconds()
+        asc_lon_delta = - np.degrees(EARTH_ANGULAR_SPEED_RAD * time_delta)
+        asc_lon_new = ((np_view.orbit_view.longitude_asc + asc_lon_delta) + 360) % 360
+        sat_angular_speed_rad = np.sqrt((EARTH_MASS * G / (EARTH_RADIUS + np_view.orbit_view.height) ** 3))
+        phase_delta = np.degrees(sat_angular_speed_rad * time_delta)
 
-            phase_coords["longitude_asc"] = (
-                orbit.longitude_asc
-                - np.degrees(EARTH_ANGULAR_VELOCITY_RAD
-                             * (target_time - orbit.creat_date).total_seconds())
-                + 360
-            ) % 360
+        phase_delta = phase_delta[np_view.orbit_idx]
+        inclin = np_view.orbit_view.inclin[np_view.orbit_idx]
+        height = np_view.orbit_view.height[np_view.orbit_idx]
+        asc_lon_new = asc_lon_new[np_view.orbit_idx]
 
-            phase_coords["inclin"] = orbit.inclin
-            phase_coords["phase_on_orbit"] = np.array(
-                [satellite.phase for satellite in orbit.satellites]
-            )
-            phase_coords["height"] = orbit.height
+        phase_new = np_view.sats_view.phases + phase_delta
 
-            geo_coords = CoordConverter().phase_to_geo_np(phase_coords)
+        phase_coords = np.empty((4, len(asc_lon_new)), dtype=np.float64)
+        phase_coords[ASC_LON] = asc_lon_new
+        phase_coords[INCLIN] = inclin
+        phase_coords[PHASE] = phase_new
+        phase_coords[HEIGHT] = height
+        geo_coords = CoordConverter().phase_to_geo_np(phase_coords)
 
-            orbit_result = np.empty(len(geo_coords), dtype=SatGeomData_dtype)
-            orbit_result["lat"] = geo_coords["lat"]
-            orbit_result["lon"] = geo_coords["lon"]
-            orbit_result["height"] = geo_coords["height"]
-            orbit_result["view_angle"] = np.array(
-                [satellite.view_angle for satellite in orbit.satellites]
-            )
-            orbit_result["reg_number"] = np.array(
-                [satellite.reg_number for satellite in orbit.satellites]
-            )
-            results.append(orbit_result)
-
-        result = np.concatenate(results)
+        result = (np_view.id_index.id(i) for i, coord in enumerate(geo_coords))
         self.cache[target_time] = result
         return result
-        """_summary_
-        """
