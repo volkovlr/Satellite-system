@@ -9,34 +9,27 @@ from satellite_system.utils.hex_manager import HexManager
 from satellite_system.utils.coord_converter import  *
 
 
-CenterCoord_dtype = np.dtype([
-    ("lat", float),
-    ("lon", float),
-])
-
-
 class StaticCoverage:
     def __init__(self, group: Group, resolution: int):
         self.group = group
         self.resolution = resolution
         self.cache: dict[datetime, float] = {}
         self.aperture_angles: npt.NDArray[float] = None
-        self.centers: npt.NDArray[CenterCoord_dtype] = None
+        self.centers: List[Tuple[float, float]] = None
 
     def preprocess(self):
         centers_list = HexManager().get_centers(self.resolution)
         centers_list.sort(key = lambda x: x[0])
-        self.centers = np.array(centers_list, dtype=CenterCoord_dtype)
+        self.centers = centers_list
 
-        heights = np.array([orbit.height for orbit in self.group.orbits for _ in orbit.satellites])
-        view_angles = np.array([satellite.view_angle for orbit in self.group.orbits for satellite in orbit.satellites])
-        view_angles_rad = np.radians(view_angles)
+        np_view = GroupNumpyView(self.group)
+        view_angles_rad = np.radians(np_view.view_angles)
 
         self.aperture_angles = np.degrees(
-            np.arcsin((1 + heights / EARTH_RADIUS) * np.sin(
-                view_angles_rad))) - view_angles
+            np.arcsin((1 + np_view.heights / EARTH_RADIUS) * np.sin(
+                view_angles_rad))) - np_view.view_angles
 
-    def get_covered_centers_union(self, target_time: datetime) -> npt.NDArray[CenterCoord_dtype]:
+    def get_covered_centers_union(self, target_time: datetime) -> List[Tuple[float, float]]:
         if self.centers is None:
             self.preprocess()
 
@@ -45,31 +38,31 @@ class StaticCoverage:
         predictor = PosPrediction(self.group)
         positions = predictor.predict_positions(target_time)
 
-        min_lats = np.clip(positions["lat"] - self.aperture_angles, -90, 90)
-        max_lats = np.clip(positions["lat"] + self.aperture_angles, -90, 90)
-        min_lons = (positions["lon"] - self.aperture_angles) % 360
-        max_lons = (positions["lon"] + self.aperture_angles) % 360
-
-        center_lats = self.centers["lat"]
+        min_lats = np.clip(positions[LAT] - self.aperture_angles, -90, 90)
+        max_lats = np.clip(positions[LAT] + self.aperture_angles, -90, 90)
+        if (min_lats == -90 or max_lats == 90):
+            lon_mask = True
+        else:
+            min_lons = (positions[LON] - self.aperture_angles) % 360
+            max_lons = (positions[LON] + self.aperture_angles) % 360
 
         for i in range(len(positions)):
             lat_min = min_lats[i]
             lat_max = max_lats[i]
             lon_min = min_lons[i]
             lon_max = max_lons[i]
-            lower_bound = np.searchsorted(center_lats, lat_min, side="left")
-            upper_bound = np.searchsorted(center_lats, lat_max, side="right")
-            print(lower_bound, upper_bound)
+            lower_bound = np.searchsorted(self.centers[LAT], lat_min, side="left")
+            upper_bound = np.searchsorted(self.centers[LAT], lat_max, side="right")
             candidate_points = self.centers[lower_bound:upper_bound]
 
-            center_lons = candidate_points["lon"]
+            center_lons = candidate_points[LON]
             if lon_min <= lon_max:
                 lon_mask = (center_lons >= lon_min) & (center_lons <= lon_max)
             else:
                 lon_mask = (center_lons >= lon_min) | (center_lons <= lon_max)
             candidate_points = candidate_points[lon_mask]
 
-            sat_structured_np = CoordConverter().geo_to_dec_single(positions["lat"][i], positions["lon"][i], positions["height"][i])
+            sat_structured_np = CoordConverter().geo_to_dec_single(positions[LAT][i], positions[LON][i], positions["height"][i])
             sat_np = sat_structured_np.view((float, 3)).T
 
             candidates_structured_np = CoordConverter().geo_2d_to_dec_np(candidate_points)
