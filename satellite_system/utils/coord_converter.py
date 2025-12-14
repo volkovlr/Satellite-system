@@ -3,18 +3,18 @@ import numpy as np
 import numpy.typing as npt
 from satellite_system.utils.constants import EARTH_RADIUS
 
-LAT = 1
-LON = 2
-HEIGHT = 3
+LAT = 0
+LON = 1
+HEIGHT = 2
 
-ASC_LON = 1
-INCLIN = 2
-PHASE = 3
-ORB_HEIGHT = 4
+ASC_LON = 0
+INCLIN = 1
+PHASE = 2
+ORB_HEIGHT = 3
 
-X = 1
-Y = 2
-Z = 3
+X = 0
+Y = 1
+Z = 2
 
 @singleton
 class CoordConverter:
@@ -77,13 +77,13 @@ class CoordConverter:
 
     @staticmethod
     def geo_to_dec_single(lat: float, lon: float, height: float) -> npt.NDArray[np.float64]:
-        geo_coord_np = np.array([(lat, lon, height)], dtype=np.float64)
+        geo_coord_np = np.array([[lat], [lon], [height]], dtype=np.float64)
         return CoordConverter().geo_to_dec_np(geo_coord_np)
 
     @staticmethod
     def geo_2d_to_dec_np(geo_2d_coord_np: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
-        geo_coord_np = np.empty(len(geo_2d_coord_np), dtype=np.float64)
+        geo_coord_np = np.empty((3, geo_2d_coord_np.shape[1]), dtype=np.float64)
         geo_coord_np[LAT] = geo_2d_coord_np[LAT]
         geo_coord_np[LON] = geo_2d_coord_np[LON]
-        geo_coord_np[HEIGHT] = EARTH_RADIUS
+        geo_coord_np[HEIGHT] = 0
         return CoordConverter().geo_to_dec_np(geo_coord_np)
