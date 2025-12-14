@@ -1,9 +1,9 @@
 from typing import List
 import numpy as np
 import numpy.typing as npt
-from sats_numpy_view import SatsNumpyView
-from orbits_numpy_view import OrbitsNumpyView
-from id_index import IdIndex
+from .sats_numpy_view import SatsNumpyView
+from .orbits_numpy_view import OrbitsNumpyView
+from .id_index import IdIndex
 from ...groups.orbit import Orbit
 from ...groups.group import Group
 
