@@ -28,4 +28,4 @@ class CommandProcessor:
         if cmd not in self.commands.keys():
             raise ValueError("Unknown command")
 
-        return self.commands[cmd](args)
+        self.commands[cmd](args)

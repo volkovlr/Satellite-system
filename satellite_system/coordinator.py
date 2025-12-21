@@ -33,6 +33,8 @@ class Coordinator:
 
       self.logger.result(f"Added a group with a number: {group.reg_number}")
 
+      return group.reg_number
+
   def add_orbit(self, orbit: Orbit):
       """Add an orbit to the model
 
@@ -65,3 +67,5 @@ class Coordinator:
           self.cache[(group.reg_number, resolution)] = calculator
           result = calculator.calculate_coverage(target_time)
           self.logger.result(f"Coverage of group {group_number} is {result * 100}%")
+
+          return result

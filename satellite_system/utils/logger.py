@@ -19,7 +19,7 @@ class Logger:
 
         message = f"[{time}] [{type}] {message}"
 
-        if (type is not "INFO"):
+        if (type != "INFO"):
             print(message)
 
         with open(self.log_file, "a") as f:
