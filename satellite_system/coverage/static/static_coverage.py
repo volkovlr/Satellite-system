@@ -59,7 +59,6 @@ class StaticCoverage:
             lon_max = max_lons[i]
             lower_bound = np.searchsorted(center_lats, lat_min, side="left")
             upper_bound = np.searchsorted(center_lats, lat_max, side="right")
-            print(lower_bound, upper_bound)
             candidate_points = self.centers[lower_bound:upper_bound]
 
             center_lons = candidate_points["lon"]
