@@ -61,7 +61,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-satellite_system.coverage.static.static_coverage">satellite_system.coverage.static.static_coverage module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#satellite_system.coverage.static.static_coverage.StaticCoverage"><code class="docutils literal notranslate"><span class="pre">StaticCoverage</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#satellite_system.coverage.static.static_coverage.StaticCoverage.calculate_coverage"><code class="docutils literal notranslate"><span class="pre">StaticCoverage.calculate_coverage()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#satellite_system.coverage.static.static_coverage.StaticCoverage.cell_filter"><code class="docutils literal notranslate"><span class="pre">StaticCoverage.cell_filter()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#satellite_system.coverage.static.static_coverage.StaticCoverage.get_covered_centers_union"><code class="docutils literal notranslate"><span class="pre">StaticCoverage.get_covered_centers_union()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#satellite_system.coverage.static.static_coverage.StaticCoverage.preprocess"><code class="docutils literal notranslate"><span class="pre">StaticCoverage.preprocess()</span></code></a></li>
 </ul>
@@ -145,21 +144,11 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="satellite_system.coverage.static.static_coverage.StaticCoverage.cell_filter">
-<span class="sig-name descname"><span class="pre">cell_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.coverage.static.static_coverage.StaticCoverage.cell_filter" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]</span></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="satellite_system.coverage.static.static_coverage.StaticCoverage.get_covered_centers_union">
 <span class="sig-name descname"><span class="pre">get_covered_centers_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.coverage.static.static_coverage.StaticCoverage.get_covered_centers_union" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]</span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code>[[(‘lat’, ‘&lt;f8’), (‘lon’, ‘&lt;f8’)]]]</span></p>
 </dd>
 </dl>
 </dd></dl>
