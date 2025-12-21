@@ -48,7 +48,13 @@
 <li class="toctree-l1"><a class="reference internal" href="satellite_system.groups.html">satellite_system.groups package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">satellite_system.pos_prediction package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#satellite-system-pos-prediction-pos-prediction-module">satellite_system.pos_prediction.pos_prediction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-satellite_system.pos_prediction.pos_prediction">satellite_system.pos_prediction.pos_prediction module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#satellite_system.pos_prediction.pos_prediction.PosPrediction"><code class="docutils literal notranslate"><span class="pre">PosPrediction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#satellite_system.pos_prediction.pos_prediction.PosPrediction.predict_positions"><code class="docutils literal notranslate"><span class="pre">PosPrediction.predict_positions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-satellite_system.pos_prediction">Module contents</a></li>
 </ul>
 </li>
@@ -58,7 +64,7 @@
 <li class="toctree-l3"><a class="reference internal" href="satellite_system.groups.html">satellite_system.groups package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">satellite_system.pos_prediction package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#satellite-system-pos-prediction-pos-prediction-module">satellite_system.pos_prediction.pos_prediction module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-satellite_system.pos_prediction.pos_prediction">satellite_system.pos_prediction.pos_prediction module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-satellite_system.pos_prediction">Module contents</a></li>
 </ul>
 </li>
@@ -67,10 +73,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="satellite_system.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="satellite_system.html#satellite-system-command-proc-module">satellite_system.command_proc module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="satellite_system.html#satellite-system-coordinator-module">satellite_system.coordinator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satellite_system.html#module-satellite_system.command_proc">satellite_system.command_proc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satellite_system.html#module-satellite_system.coordinator">satellite_system.coordinator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="satellite_system.html#module-satellite_system.decorators">satellite_system.decorators module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="satellite_system.html#satellite-system-main-module">satellite_system.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satellite_system.html#module-satellite_system.main">satellite_system.main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="satellite_system.html#module-satellite_system">Module contents</a></li>
 </ul>
 </li>
@@ -107,8 +113,24 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="satellite-system-pos-prediction-pos-prediction-module">
-<h2>satellite_system.pos_prediction.pos_prediction module<a class="headerlink" href="#satellite-system-pos-prediction-pos-prediction-module" title="Link to this heading"></a></h2>
+<section id="module-satellite_system.pos_prediction.pos_prediction">
+<span id="satellite-system-pos-prediction-pos-prediction-module"></span><h2>satellite_system.pos_prediction.pos_prediction module<a class="headerlink" href="#module-satellite_system.pos_prediction.pos_prediction" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="satellite_system.pos_prediction.pos_prediction.PosPrediction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">satellite_system.pos_prediction.pos_prediction.</span></span><span class="sig-name descname"><span class="pre">PosPrediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.pos_prediction.pos_prediction.PosPrediction" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="satellite_system.pos_prediction.pos_prediction.PosPrediction.predict_positions">
+<span class="sig-name descname"><span class="pre">predict_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#satellite_system.pos_prediction.pos_prediction.PosPrediction.predict_positions" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-satellite_system.pos_prediction">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-satellite_system.pos_prediction" title="Link to this heading"></a></h2>
