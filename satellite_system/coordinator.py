@@ -66,6 +66,6 @@ class Coordinator:
           calculator = static_cov.StaticCoverage(group, resolution)
           self.cache[(group.reg_number, resolution)] = calculator
           result = calculator.calculate_coverage(target_time)
-          self.logger.result(f"Coverage of group {group_number} is {result * 100}%")
+          self.logger.result(f"Coverage of group {group_number} is {(result * 100):.3g}%")
 
           return result
