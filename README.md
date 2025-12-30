@@ -1,16 +1,81 @@
-# Проект "Satellite system"
+# "Satellite System" Project
 
-Задача проекта: моделировать движение спутников над Землёй, добавляя спутниковые группировки к модели или отвечая на запросы о покрытии Земли спутниками некоторых группировок.
+The project's objective is to model satellite movements over the Earth. It allows for adding satellite groups to the model or calculating the percentage of the Earth's area covered by satellites of a given group at a given time.
 
-Покрытия бывают двух видов: статические и динамические. Нахождение статического покрытия заключается в определении процента площади Земли, которая находится в области видимости спутников в данный момент времени. Динамическое покрытие - это покрытие за какой-то промежуток времени, которое можно посчитать, как среднее по времени покрытие, минимальное за все время покрытие или покрытие объединения площадей Земли, над которыми в этот промежуток времени летали спутники.
+This involves approximate calculations. Uber's h3 library is used, which divides the Earth into regular hexagons of a given size. We consider a satellite to cover a hexagon if its center is within the satellite's field of view. The program counts the number of covered hexagons of a given size and divides this by the total number of hexagons of that size. This is how coverage is calculated.
 
-В процессе вычислений Земля делится на правильные шестиугольники определенного размера (задаваемого пользователем). Шестиугольники берутся из библиотеки H3 от авторства компании Uber. Будем считать, что спутник покрывает шестиугольник, если его центр (библиотека позволяет получить координаты центров) находится в области видимости спутника.
+## How to work with the program
 
-Сначала от пользователя принимается запрос: добавить новую спутниковую группировку к модели или посчитать покрытие оперделеного вида. Запрос получает класс User (фасад), который делегирует его Main. Последний обрабатывает запрос и затем обращается к классу, соответствующему пославленной задаче.
+### Installation
+Clone the repository and switch to the main branch
+```
+git clone -b main https://github.com/volkovlr/Satellite-system
+```
 
-Если пользователю нужно добавить группировку, он задаёт 8 параметров: a - радиус орбиты, i - наклонение орбиты, Ω₀ - долгота восходящего узла первой орбитальной плоскости, p - количество орбитальных плоскостей, t - общее число спутников, f - фазовый сдвиг между плоскостями, M₀ - фазовое положение первого спутника на первой орбите (где он стартует в момент t₀) и t₀ - время отсчёта.
+Then create a virtual environment in the project folder
+```
+python -m venv venv
+source venv/bin/activate  # Linux / macOS
+# venv\Scripts\activate   # Windows
+pip install -r requirements.txt
+```
 
-В структуре проекта есть фабрика группировок, орбит и спутников - GroupBuilder.
-Также имеется абстрактный класс Coverage, от которого наследуются классы StaticCoverage и DynamicCoverage (наследниками которого будут AverageDynamicCoverage, UnionDynamicCoverage и MinimumDynamicCoverage).
+After that, run the project
+```
+python -m satellite_system.main
+```
 
-Также в проекте имеется Logger (Singleton-класс), осуществляющий логгирование основных этапов работы программы.
+### Comands
+#### Creating a group
+Below is an example of creating a satellite constellation:
+```
+add_group 500 45 30 4 16 3 0 2026-01-15 14:30:45.123456 20
+```
+That is, the grouping is set by nine parameters that come after "add_group", here they are in the order in which they need to be written in the console:
+
+1. The height of each orbit above the Earth (in kilometers)
+2. The inclination of each orbit (in degrees)
+3. The longitude of the ascending node for the first orbit (in degrees)
+4. The number of orbits in the grouping
+5. The number of satellites in the grouping (it is assumed that it is divided by the number of orbits)
+6. Phase shift between neighboring orbits (in degrees)
+7. The phase of the first satellite in the first orbit (in degrees)
+8. Time of grouping creation (in datetime.datetime format)
+9. Half of the viewing angle of each satellite (in degrees)
+
+After that, the group will be assigned a number. You will learn about this from a message like this:
+```
+[2025-12-21 15:53:52] [RESULT] Added a group with a number: 1054
+```
+
+#### Calculating coverage
+To calculate the coverage of a certain grouping at a given time, the command is written as follows (example):
+```
+calculate_coverage 1054 4 2026-02-15 14:30:45.123456
+```
+After "calculate_coverage" the grouping number, resolution (as the resolution increases, the accuracy of the calculation increases, but the resolution cannot be greater than six) and the time at which the coverage should be calculated.
+
+Table of correspondence between resolutions and side lengths of regular hexagons into which the Earth is divided in calculations (information taken using the h3 library):
+
+| Resolution | Side lenght, km |
+|--------|------------|
+| 1 | 483 |
+| 2 | 183 |
+| 3 | 69 |
+| 4 | 26 |
+| 5 | 9,9 |
+| 6 | 3,7 |
+
+#### Shutdown
+For the end of the work write "exit"
+
+
+### A complete example of working with the program
+```
+Enter the command
+add_group 500 45 30 4 16 3 0 2026-01-15 14:30:45.123456 20
+[2025-12-29 23:15:27] [RESULT] Added a group with a number: 2703
+calculate_coverage 2703 4 2026-02-15 14:30:45.123456
+[2025-12-29 23:16:01] [RESULT] Coverage of group 2703 is 0.177%
+exit
+```
