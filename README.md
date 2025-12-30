@@ -12,15 +12,20 @@ Clone the repository and switch to the main branch
 git clone -b main https://github.com/volkovlr/Satellite-system
 ```
 
-Then create a virtual environment in the project folder
+Then create a virtual environment in folder "Satellite-system"
 ```
+# Linux / macOS
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# Windows
 python -m venv venv
-source venv/bin/activate  # Linux / macOS
-# venv\Scripts\activate   # Windows
+venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-After that, run the project
+Run the project
 ```
 python -m satellite_system.main
 ```
