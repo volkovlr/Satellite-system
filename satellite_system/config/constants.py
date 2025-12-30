@@ -1,5 +1,5 @@
 GROUP_PARAM_KEYS = [
-    "height",  # The height of the Earth's orbit
+    "height",  # The height of each orbit above the Earth
     "orb_inclin",  # Orbit inclination
     "longitude_asc",  # The longitude of the ascending node
     "count_orbits",  #  Count of orbits in a group
@@ -7,7 +7,7 @@ GROUP_PARAM_KEYS = [
     "phase_shift",  # Phase shift between neighboring orbits
     "ph_first_sat",  # The phase of the first satellite in the first orbit
     "t0",  # Time when the grouping was created
-    "view_angle"  # Viewing angle of all satellites of the grouping when creating
+    "view_angle"  # Half of the viewing angle of each satellite
 ]
 
 CALCULATOR_PARAM_KEYS = [
