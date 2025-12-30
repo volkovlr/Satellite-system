@@ -30,7 +30,7 @@ Run the project
 python -m satellite_system.main
 ```
 
-### Comands
+### Commands
 #### Creating a group
 Below is an example of creating a satellite constellation:
 ```
